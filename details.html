@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component Details - Micro UI Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Component: Glow Button</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="theme-toggle">
+      <label>
+        <input type="checkbox" id="darkModeToggle">
+        🌙 Dark Mode
+      </label>
+    </div>
+  </header>
+
+  <main class="details">
+    <section class="ui-card">
+      <h2>Preview</h2>
+      <button class="glow-btn">Click Me</button>
+
+      <h3>HTML Code</h3>
+      <button class="copy-code">📋 Copy Code</button>
+      <pre class="code-block hidden"><code>&lt;button class=&quot;glow-btn&quot;&gt;Click Me&lt;/button&gt;</code></pre>
+
+      <h3>CSS Code</h3>
+      <button class="copy-code">📋 Copy Code</button>
+      <pre class="code-block hidden"><code>.glow-btn {
+  padding: 0.75rem 1.5rem;
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #111;
+  transition: box-shadow 0.3s ease;
+}</code></pre>
+
+      <p><a href="assets/component-code/glow-button.html" download>⬇️ Download Component</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 <a href="https://rskworld.in" target="_blank">rskworld.in</a></p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('darkModeToggle');
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', toggle.checked);
+      localStorage.setItem('theme', toggle.checked ? 'dark' : 'light');
+    });
+
+    if (localStorage.getItem('theme') === 'dark') {
+      toggle.checked = true;
+      document.body.classList.add('dark');
+    }
+
+    const copyButtons = document.querySelectorAll('.copy-code');
+    const codeBlocks = document.querySelectorAll('.code-block');
+
+    copyButtons.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        const code = codeBlocks[index].innerText;
+        navigator.clipboard.writeText(code);
+        btn.innerText = '✅ Copied!';
+        setTimeout(() => btn.innerText = '📋 Copy Code', 2000);
+      });
+
+      btn.addEventListener('dblclick', () => {
+        codeBlocks[index].classList.toggle('hidden');
+      });
+    });
+  </script>
+
+  <style>
+    .theme-toggle {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    body.dark {
+      background: #111;
+      color: #eee;
+    }
+
+    .ui-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      margin: 2rem auto;
+      max-width: 800px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    body.dark .ui-card {
+      background: #222;
+      color: #fff;
+    }
+
+    .glow-btn {
+      padding: 0.75rem 1.5rem;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #111;
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .glow-btn:hover {
+      box-shadow: 0 0 20px #111;
+    }
+
+    .copy-code {
+      margin-top: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border: none;
+      background: #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    body.dark .copy-code {
+      background: #444;
+      color: #eee;
+    }
+
+    .code-block {
+      background: #f0f0f0;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      display: block;
+      overflow-x: auto;
+    }
+
+    .code-block.hidden {
+      display: none;
+    }
+
+    a {
+      color: #007acc;
+    }
+
+    body.dark a {
+      color: #88c6ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #fafafa;
+    }
+
+    body.dark footer {
+      background: #222;
+    }
+  </style>
+</body>
+</html>

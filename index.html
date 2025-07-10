@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro UI Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎨 Micro UI Gallery</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="button">Buttons</button>
+      <button class="filter-btn" data-filter="modal">Modals</button>
+      <button class="filter-btn" data-filter="loader">Loaders</button>
+    </div>
+    <div class="theme-toggle">
+      <label>
+        <input type="checkbox" id="darkModeToggle">
+        🌙 Dark Mode
+      </label>
+    </div>
+  </header>
+
+  <main class="gallery">
+    <div class="ui-card" data-category="button">
+      <h3>Glow Button</h3>
+      <div class="preview">
+        <button class="glow-btn">Click Me</button>
+      </div>
+      <button class="copy-code">📋 Copy Code</button>
+      <pre class="code-block hidden"><code>&lt;button class=&quot;glow-btn&quot;&gt;Click Me&lt;/button&gt;</code></pre>
+    </div>
+
+    <div class="ui-card" data-category="modal">
+      <h3>Popup Modal</h3>
+      <div class="preview">
+        <button class="open-modal">Open Modal</button>
+      </div>
+      <button class="copy-code">📋 Copy Code</button>
+      <pre class="code-block hidden"><code>&lt;div class=&quot;modal&quot;&gt;...&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="ui-card" data-category="loader">
+      <h3>Spinning Loader</h3>
+      <div class="preview">
+        <div class="loader"></div>
+      </div>
+      <button class="copy-code">📋 Copy Code</button>
+      <pre class="code-block hidden"><code>&lt;div class=&quot;loader&quot;&gt;&lt;/div&gt;</code></pre>
+    </div>
+  </main>
+
+  <div class="modal hidden">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>This is a simple modal popup.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 <a href="https://rskworld.in" target="_blank">rskworld.in</a></p>
+  </footer>
+
+  <script>
+    // Filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.ui-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelector('.filter-btn.active').classList.remove('active');
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Modal
+    const modal = document.querySelector('.modal');
+    const openModalBtn = document.querySelector('.open-modal');
+    const closeModalBtn = document.querySelector('.close');
+
+    openModalBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+    closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+
+    // Dark Mode
+    const toggle = document.getElementById('darkModeToggle');
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', toggle.checked);
+      localStorage.setItem('theme', toggle.checked ? 'dark' : 'light');
+    });
+
+    if (localStorage.getItem('theme') === 'dark') {
+      toggle.checked = true;
+      document.body.classList.add('dark');
+    }
+
+    // Copy Code
+    const copyButtons = document.querySelectorAll('.copy-code');
+    const codeBlocks = document.querySelectorAll('.code-block');
+
+    copyButtons.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        const code = codeBlocks[index].innerText;
+        navigator.clipboard.writeText(code);
+        btn.innerText = '✅ Copied!';
+        setTimeout(() => btn.innerText = '📋 Copy Code', 2000);
+      });
+    });
+
+    // Toggle Code Block Visibility
+    copyButtons.forEach((btn, index) => {
+      btn.addEventListener('dblclick', () => {
+        codeBlocks[index].classList.toggle('hidden');
+      });
+    });
+  </script>
+  <style>
+    .theme-toggle {
+      margin-top: 1rem;
+    }
+    body.dark {
+      background: #111;
+      color: #eee;
+    }
+    body.dark .ui-card {
+      background: #222;
+      color: #fff;
+    }
+    .code-block {
+      background: #f0f0f0;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .code-block.hidden {
+      display: none;
+    }
+    .copy-code {
+      margin-top: 1rem;
+      padding: 0.3rem 0.6rem;
+      border: none;
+      background: #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    body.dark .copy-code {
+      background: #444;
+      color: #eee;
+    }
+  </style>
+</body>
+</html>
